@@ -10,7 +10,9 @@ import { useAuth } from 'hooks';
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
 const LoginPage = lazy(() => import('../pages/Login'));
-const ContactPage = lazy(() => import('../pages/Contacts'));
+const NotFound = lazy(() => import('../pages/404/404'));
+
+// const ContactPage = lazy(() => import('../pages/Contacts'));
 
 // const TasksPage = lazy(() => import('../pages/Tasks'));
 
@@ -44,7 +46,9 @@ export const App = () => {
               <RestrictedRoute redirectTo="/tasks" component={<LoginPage />} />
             }
           />
-          <Route
+          <Route path="*" element={<NotFound />} />
+
+          {/* <Route
             path="/contacts"
             element={
               <RestrictedRoute
@@ -52,7 +56,7 @@ export const App = () => {
                 component={<ContactPage />}
               />
             }
-          />
+          /> */}
         </Route>
       </Routes>
     </div>
