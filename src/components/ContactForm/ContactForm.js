@@ -1,26 +1,22 @@
-import {
-  SearchForm,
-  FormLabel,
-  FormInput,
-  FormBtn,
-} from './ContactForm.styled';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
-import { addContact } from 'redux/operations';
 import { Formik, ErrorMessage } from 'formik';
-import * as yup from 'yup';
-// import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from 'yup';
 
-const schema = yup.object({
-  name: yup
-    .string()
+import {
+  Label,
+  Form,
+  InputName,
+  Field,
+  AddContactBtn,
+  ErrorMessageCustom,
+} from './ContactForm.styled';
+
+const validationSchema = Yup.object({
+  name: Yup.string()
     .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/)
-    .min(2, 'Too short!')
+    .min(4, 'Too short!')
     .max(30, 'Too long!')
     .required('Required'),
-  number: yup
-    .string()
+  phone: Yup.string()
     .matches(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
     )
@@ -29,56 +25,53 @@ const schema = yup.object({
     .required('Required'),
 });
 
-export default function ContactForm() {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
-
-  const handleSubmit = ({ name, number }, { resetForm }) => {
-    const isExist = contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
-    if (isExist) {
-      alert(`${name} is already in contacts`);
-      return;
-    }
-
-    const contact = {
-      name,
-      number,
-    };
-
-    dispatch(addContact(contact));
-    resetForm();
+export const ContactForm = ({
+  initialValues = { name: '', phone: '' },
+  onSubmit,
+  btnText,
+}) => {
+  const handleSubmit = async (values, actions) => {
+    await onSubmit(values);
+    actions.setSubmitting(false);
+    actions.resetForm();
   };
-
   return (
     <Formik
-      initialValues={{ name: '', number: '' }}
-      validationSchema={schema}
+      initialValues={initialValues}
+      validationSchema={validationSchema}
       onSubmit={handleSubmit}
     >
-      <SearchForm id="form">
-        <FormLabel>Name</FormLabel>
-        <ErrorMessage name="name" />
-        <FormInput
-          type="text"
-          name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-          title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-          required
-        />
-        <FormLabel>Number</FormLabel>
-        <ErrorMessage name="number" />
-        <FormInput
-          type="tel"
-          name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-          title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-          required
-        />
-        <FormBtn type="submit">Add contact</FormBtn>
-      </SearchForm>
+      {({ isSubmitting }) => (
+        <Form autoComplete="false">
+          <Label>
+            <InputName>Name</InputName>
+            <ErrorMessage name="name" component="span">
+              {() => (
+                <ErrorMessageCustom>
+                  Please, type (4-30 letters)
+                </ErrorMessageCustom>
+              )}
+            </ErrorMessage>
+            <Field name="name" type="text" />
+          </Label>
+          <br />
+          <Label>
+            <InputName>Phone</InputName>
+            <ErrorMessage name="phone" component="span">
+              {() => (
+                <ErrorMessageCustom>
+                  Please, type (5-9 numbers)
+                </ErrorMessageCustom>
+              )}
+            </ErrorMessage>
+            <Field name="phone" type="text" />
+          </Label>
+          <br />
+          <AddContactBtn type="submit" disabled={isSubmitting}>
+            {btnText}
+          </AddContactBtn>
+        </Form>
+      )}
     </Formik>
   );
-}
+};

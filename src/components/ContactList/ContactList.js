@@ -1,15 +1,33 @@
 import { useSelector } from 'react-redux';
 import ContactItem from 'components/ContactItem';
-import { selectVisibleContacts } from 'redux/contacts/selectors';
+import { selectFiltredContacts } from 'redux/contacts/selectors';
+import { selectIsLoading } from 'redux/contacts/selectors';
+import { Loader } from 'components/Loader';
 
 export const ContactList = () => {
-  const visibleContacts = useSelector(selectVisibleContacts);
+  const filtredContacts = useSelector(selectFiltredContacts);
+  const isLoading = useSelector(selectIsLoading);
 
   return (
-    <ul>
-      {visibleContacts.map(contact => (
-        <ContactItem contact={contact} key={contact.id} />
-      ))}
-    </ul>
+    <>
+      {!filtredContacts ? (
+        <p>Your contactlist is empty</p>
+      ) : (
+        <table>
+          <thead>
+            {filtredContacts.map(contact => (
+              <ContactItem key={contact.id} {...contact} />
+            ))}
+          </thead>
+        </table>
+      )}
+      {isLoading && <Loader />}
+    </>
+
+    // <ul>
+    //   {filtredContacts.map(contact => (
+    //     <ContactItem contact={contact} key={contact.id} />
+    //   ))}
+    // </ul>
   );
 };
