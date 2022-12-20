@@ -3,13 +3,12 @@ import {
   FormLabel,
   FormInput,
   FormBtn,
-} from './ContactForm.styled';
+} from './ContactEditor.styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/selectors';
-import { addContact } from 'redux/operations';
+import { selectContacts } from 'redux/contacts/selectors';
+import { addContact } from 'redux/contacts/operations';
 import { Formik, ErrorMessage } from 'formik';
 import * as yup from 'yup';
-// import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const schema = yup.object({
@@ -29,7 +28,7 @@ const schema = yup.object({
     .required('Required'),
 });
 
-export default function ContactForm() {
+export const ContactEditor = () => {
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
 
@@ -81,4 +80,4 @@ export default function ContactForm() {
       </SearchForm>
     </Formik>
   );
-}
+};

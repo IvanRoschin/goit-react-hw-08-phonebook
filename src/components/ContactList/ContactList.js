@@ -1,34 +1,15 @@
-import { useFetchContactsQuery } from 'redux/contacts/contactSlice';
-import { getFilter } from 'redux/contacts/filterSlice';
 import { useSelector } from 'react-redux';
-import { ContactItem } from '../ContactListItem/ContactItem';
-import { Loader } from 'components/Loader';
+import ContactItem from 'components/ContactItem';
+import { selectVisibleContacts } from 'redux/contacts/selectors';
 
-const ContactList = () => {
-  const { data: contacts, isFetching } = useFetchContactsQuery();
-  const filter = useSelector(getFilter);
-  const filtredContacts = !contacts
-    ? []
-    : contacts.filter(contact =>
-        contact.name.toLowerCase().includes(filter.toLowerCase())
-      );
+export const ContactList = () => {
+  const visibleContacts = useSelector(selectVisibleContacts);
 
   return (
-    <>
-      {!contacts ? (
-        <p>Your contactlist is empty</p>
-      ) : (
-        <table>
-          <thead>
-            {filtredContacts.map(contact => (
-              <ContactItem key={contact.id} {...contact} />
-            ))}
-          </thead>
-        </table>
-      )}
-      {isFetching && <Loader />}
-    </>
+    <ul>
+      {visibleContacts.map(contact => (
+        <ContactItem contact={contact} key={contact.id} />
+      ))}
+    </ul>
   );
 };
-
-export default ContactList;
