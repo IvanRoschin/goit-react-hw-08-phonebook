@@ -1,32 +1,9 @@
 import { Formik, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
 
-import {
-  Label,
-  Form,
-  InputName,
-  Field,
-  AddContactBtn,
-  ErrorMessageCustom,
-} from './ContactForm.styled';
-
-const validationSchema = Yup.object({
-  name: Yup.string()
-    .matches(/^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/)
-    .min(4, 'Too short!')
-    .max(30, 'Too long!')
-    .required('Required'),
-  phone: Yup.string()
-    .matches(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
-    )
-    .min(5, 'Too short!')
-    .max(30, 'Too long!')
-    .required('Required'),
-});
+import { Label, Form, Field, Btn } from './ContactForm.styled';
 
 export const ContactForm = ({
-  initialValues = { name: '', phone: '' },
+  initialValues = { name: '', number: '' },
   onSubmit,
   btnText,
 }) => {
@@ -36,40 +13,30 @@ export const ContactForm = ({
     actions.resetForm();
   };
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validationSchema}
-      onSubmit={handleSubmit}
-    >
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {({ isSubmitting }) => (
-        <Form autoComplete="false">
-          <Label>
-            <InputName>Name</InputName>
-            <ErrorMessage name="name" component="span">
-              {() => (
-                <ErrorMessageCustom>
-                  Please, type (4-30 letters)
-                </ErrorMessageCustom>
-              )}
-            </ErrorMessage>
-            <Field name="name" type="text" />
-          </Label>
-          <br />
-          <Label>
-            <InputName>Phone</InputName>
-            <ErrorMessage name="phone" component="span">
-              {() => (
-                <ErrorMessageCustom>
-                  Please, type (5-9 numbers)
-                </ErrorMessageCustom>
-              )}
-            </ErrorMessage>
-            <Field name="phone" type="text" />
-          </Label>
-          <br />
-          <AddContactBtn type="submit" disabled={isSubmitting}>
+        <Form id="form">
+          <Label>Name</Label>
+          <ErrorMessage name="name" />
+          <Field
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+          />
+          <Label>Number</Label>
+          <ErrorMessage name="number" />
+          <Field
+            type="tel"
+            name="number"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+          />
+          <Btn type="submit" disabled={isSubmitting}>
             {btnText}
-          </AddContactBtn>
+          </Btn>
         </Form>
       )}
     </Formik>

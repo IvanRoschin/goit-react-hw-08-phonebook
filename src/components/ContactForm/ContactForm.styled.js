@@ -29,7 +29,7 @@ export const Field = styled(FormikField)`
   padding: ${p => p.theme.space[3]}px;
 `;
 
-export const AddContactBtn = styled.button`
+export const Btn = styled.button`
   width: 190px;
   display: block;
   margin-left: auto;
