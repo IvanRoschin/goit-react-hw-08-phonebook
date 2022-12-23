@@ -5,32 +5,25 @@ import {
   Title,
   ModalCloseBtn,
 } from './EditContactModal.styled';
+import { toast } from 'react-toastify';
 import { RxCross1 } from 'react-icons/rx';
-import { updateContact } from 'redux/contacts/operations';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { selectContactById } from 'redux/contacts/selectors';
 
-// import {
-//   useGetContactByIdQuery,
-//   useUpdateContactMutation,
-// } from 'redux/contactSlice';
+import {
+  useFetchContactsQuery,
+  useUpdateContactMutation,
+} from 'redux/contacts/slice';
 
 export const EditContactModal = ({ closeModal, id }) => {
-  const dispatch = useDispatch();
-  const contact = useSelector(state => selectContactById(state, id));
-
-  useEffect(() => {
-    dispatch(updateContact(contact));
-  }, [dispatch, contact]);
-
-  // const { data: contact } = useGetContactByIdQuery(id);
-  // const [updateContact] = useUpdateContactMutation();
+  const { data: contacts } = useFetchContactsQuery();
+  const [updateContact] = useUpdateContactMutation();
   const handleCloseModal = () => closeModal(false);
+  const findContactById = contacts.filter(contact => contact.id === id);
 
   const handleUpdateContact = async fields => {
     try {
-      await updateContact({ id: id, ...fields });
+      await updateContact({ id, ...fields });
+      toast.success('Yoohoo, contact is updated');
+
       handleCloseModal();
     } catch (error) {
       console.log(error);
@@ -41,9 +34,12 @@ export const EditContactModal = ({ closeModal, id }) => {
     <Overlay>
       <Modal>
         <Title>Contact Update</Title>
-        {contact && (
+        {contacts && (
           <ContactForm
-            initialValues={{ name: contact.name, phone: contact.phone }}
+            initialValues={{
+              name: findContactById[0].name,
+              number: findContactById[0].number,
+            }}
             btnText="Save"
             onSubmit={handleUpdateContact}
           />

@@ -1,31 +1,22 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
-import { deleteContact } from 'redux/contacts/operations';
+import { useDeleteContactMutation } from 'redux/contacts/slice';
 import { EditContactModal } from 'components/EditContactModal/EditContactModal';
 import { Loader } from 'components/Loader';
 import { toast } from 'react-toastify';
-import { Btn } from './ContactItem.styled';
-import { selectIsLoading } from 'redux/contacts/selectors';
+import { Btn, ListItem } from './ContactItem.styled';
 
-// import EditForm from 'components/editForm/EditForm';
-
-const ContactItem = ({ id, name, phone }) => {
+export const ContactItem = ({ id, name, number }) => {
   const [openModal, setOpenModal] = useState(false);
-
-  const dispatch = useDispatch();
-  const isLoading = useSelector(selectIsLoading);
-
+  const [deleteContact, { isLoading: isDeleting }] = useDeleteContactMutation();
   const handleDelete = e => {
     e.preventDefault();
-    dispatch(deleteContact(id));
+    deleteContact(id);
     toast.warning(`Contact is deleted`);
   };
-
   return (
-    <tr>
-      <td>{name}</td>
-      <td>{phone}</td>
-      <td>
+    <ListItem>
+      {name}: {number}
+      <div>
         <Btn
           type="button"
           onClick={() => {
@@ -34,15 +25,11 @@ const ContactItem = ({ id, name, phone }) => {
         >
           Update
         </Btn>
-      </td>
-      {openModal && <EditContactModal closeModal={setOpenModal} id={id} />}
-      <td>
-        <Btn type="button" disabled={isLoading} onClick={handleDelete}>
-          {isLoading ? <Loader /> : 'Delete'}
+        <Btn type="button" disabled={isDeleting} onClick={handleDelete}>
+          {isDeleting ? <Loader /> : 'Delete'}
         </Btn>
-      </td>
-    </tr>
+      </div>
+      {openModal && <EditContactModal closeModal={setOpenModal} id={id} />}
+    </ListItem>
   );
 };
-
-export default ContactItem;

@@ -1,79 +1,59 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { logOut } from 'redux/auth/operations';
-import {
-  fetchContacts,
-  addContact,
-  deleteContact,
-  updateContact,
-} from './operations';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
-export const contactsSlice = createSlice({
-  name: 'contacts',
-  initialState: {
-    contacts: {
-      items: [],
-      isLoading: false,
-      error: null,
+export const contactsApi = createApi({
+  reducerPath: 'contactsApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://connections-api.herokuapp.com',
+    tagTypes: ['contacts'],
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+
+      if (token) {
+        headers.set('authorization', `Bearer ${token}`);
+      }
+
+      return headers;
     },
-    filter: '',
-  },
-  reducers: {
-    filterMyContact(state, action) {
-      state.filter = action.payload;
-    },
-  },
-  extraReducers: builder =>
-    builder
-      .addCase(fetchContacts.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchContacts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.contacts.items = action.payload;
-      })
-      .addCase(fetchContacts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(addContact.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(addContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.contacts.items.unshift(action.payload);
-      })
-      .addCase(addContact.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(deleteContact.pending, (state, action) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        const index = state.contacts.items.findIndex(
-          contact => contact.id === action.payload.id
-        );
-        state.contacts.items.splice(index, 1);
-      })
-      .addCase(deleteContact.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(logOut.fulfilled, state => {
-        state.items = [];
-        state.error = null;
-        state.isLoading = false;
-      })
-      .addCase(updateContact.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.error = null;
-        state.contacts.items.push(action.payload);
+  }),
+  endpoints: builder => ({
+    fetchContacts: builder.query({
+      query: () => `/contacts`,
+      providesTags: ['contacts'],
+    }),
+    getContactById: builder.query({
+      query: id => `/contacts/${id}`,
+      providesTags: ['contacts'],
+    }),
+    addContact: builder.mutation({
+      query: values => ({
+        url: '/contacts',
+        method: 'POST',
+        body: values,
       }),
+      invalidatesTags: ['contacts'],
+    }),
+    deleteContact: builder.mutation({
+      query: id => ({
+        url: `/contacts/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['contacts'],
+    }),
+    updateContact: builder.mutation({
+      query: ({ id, ...patch }) => ({
+        url: `/contacts/${id}`,
+        method: 'PUT',
+        body: patch,
+      }),
+      invalidatesTags: ['contacts'],
+    }),
+  }),
 });
 
-export const { filterMyContact } = contactsSlice.actions;
-export const contactsReducer = contactsSlice.reducer;
+export const {
+  useFetchContactsQuery,
+  useAddContactMutation,
+  useDeleteContactMutation,
+  useGetContactByIdQuery,
+  useUpdateContactMutation,
+} = contactsApi;

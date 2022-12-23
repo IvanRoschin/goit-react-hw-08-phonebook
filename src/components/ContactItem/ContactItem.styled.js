@@ -1,5 +1,16 @@
 import styled from 'styled-components';
 
+export const ListItem = styled.li`
+  display: flex;
+  width: 400px;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 20px;
+  list-style: disc;
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+`;
 export const Btn = styled.button`
   padding: ${p => p.theme.space[3]}px;
   text-align: center;

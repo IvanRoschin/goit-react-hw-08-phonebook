@@ -1,29 +1,26 @@
+import {
+  useAddContactMutation,
+  useFetchContactsQuery,
+} from 'redux/contacts/slice';
 import { ContactForm } from 'components/ContactForm/ContactForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectContacts } from 'redux/contacts/selectors';
-import { addContact } from 'redux/contacts/operations';
 import { toast } from 'react-toastify';
 
 export const ContactEditor = () => {
-  const dispatch = useDispatch();
-  const contacts = useSelector(selectContacts);
+  const [addContact] = useAddContactMutation();
+  const { data: contacts } = useFetchContactsQuery();
 
-  const handleAddContact = ({ name, number }) => {
-    const isExist = contacts.find(
-      contact => contact.name.toLowerCase() === name.toLowerCase()
-    );
-
+  const handleAddContact = async values => {
+    const isExist = contacts.find(contact => contact.name === values.name);
     if (isExist) {
-      toast.error(`${name} is already in contacts.`);
-      // resetForm();
+      toast.error(`${values.name} is already in contacts.`);
       return;
     }
-    const contact = {
-      name,
-      number,
-    };
-    dispatch(addContact(contact));
-    toast.success(`${name} is added to Phonebook.`);
+    try {
+      await addContact(values);
+      toast.success(`${values.name} is added to Phonebook.`);
+    } catch (error) {
+      toast.error(`error`);
+    }
   };
 
   return (

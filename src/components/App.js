@@ -13,8 +13,6 @@ const LoginPage = lazy(() => import('../pages/Login'));
 // const NotFound = lazy(() => import('../pages/404/404'));
 const ContactPage = lazy(() => import('../pages/Contacts'));
 
-// const TasksPage = lazy(() => import('../pages/Tasks'));
-
 export const App = () => {
   const dispatch = useDispatch();
   const { isRefreshing } = useAuth();
