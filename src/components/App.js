@@ -6,6 +6,9 @@ import { PrivateRoute } from './PrivateRoute';
 import { RestrictedRoute } from './RestrictedRoute';
 import { refreshUser } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Container } from './App.styled';
 
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
@@ -24,10 +27,16 @@ export const App = () => {
   return isRefreshing ? (
     <b>Refreshing user...</b>
   ) : (
-    <div>
+    <Container>
       <Routes>
-        <Route path="/" end element={<Layout />}>
+        <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute redirectTo="/login" component={<ContactPage />} />
+            }
+          />
           <Route
             path="/register"
             element={
@@ -46,41 +55,10 @@ export const App = () => {
               />
             }
           />
-          <Route
-            path="/contacts"
-            element={
-              <PrivateRoute redirectTo="/login" component={<ContactPage />} />
-            }
-          />
           <Route path="*" element={<Navigate to="/" replace />} />
-
-          {/* <Route path="*" element={<NotFound />} /> */}
         </Route>
       </Routes>
-    </div>
-
-    // <Routes>
-    //   <Route path="/" element={<Layout />}>
-    //      <Route index element={<HomePage />} />
-    //      <Route
-    //       path="/register"
-    //       element={
-    //         <RestrictedRoute redirectTo="/tasks" component={<RegisterPage />} />
-    //       }
-    //     />
-    //     <Route
-    //       path="/login"
-    //       element={
-    //         <RestrictedRoute redirectTo="/tasks" component={<LoginPage />} />
-    //       }
-    //     />
-    //     <Route
-    //       path="/tasks"
-    //       element={
-    //         <PrivateRoute redirectTo="/login" component={<TasksPage />} />
-    //       }
-    //     />
-    //    </Route>
-    // </Routes>
+      <ToastContainer />
+    </Container>
   );
 };
