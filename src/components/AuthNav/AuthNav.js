@@ -1,10 +1,14 @@
-import { Navigation, AppBarLink } from './AuthNav.styled';
+import { NavList, Link } from './AuthNav.styled';
 
 export const AuthNav = () => {
   return (
-    <Navigation>
-      <AppBarLink to="register">Registration</AppBarLink>
-      <AppBarLink to="login">Login</AppBarLink>
-    </Navigation>
+    <NavList>
+      <li>
+        <Link to="register">Registration</Link>
+      </li>
+      <li>
+        <Link to="login">Login</Link>
+      </li>
+    </NavList>
   );
 };

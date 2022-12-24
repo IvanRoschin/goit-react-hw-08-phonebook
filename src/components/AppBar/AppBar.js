@@ -1,17 +1,25 @@
-import { AppWrapper, AppBarLink } from './AppBar.styled';
+import { Header } from './AppBar.styled';
 import { UserMenu } from '../UserMenu/UserMenu';
 import { AuthNav } from '../AuthNav/AuthNav';
 import { useAuth } from 'hooks/useAuth';
+import Box from '@mui/material/Box';
+import { Navigation } from 'components/Navigation/Navigation';
 
 export const AppBar = () => {
   const { isLoggedIn } = useAuth();
   return (
-    <AppWrapper>
-      <div>
-        <AppBarLink to="home">Home</AppBarLink>
-        {isLoggedIn && <AppBarLink to="contacts">Contacts</AppBarLink>}
-      </div>
-      {isLoggedIn ? <UserMenu /> : <AuthNav />}
-    </AppWrapper>
+    <Header>
+      <Navigation />
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: '15px',
+        }}
+      >
+        {isLoggedIn ? <UserMenu /> : <AuthNav />}
+      </Box>
+    </Header>
   );
 };
