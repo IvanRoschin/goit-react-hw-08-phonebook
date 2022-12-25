@@ -7,21 +7,8 @@ export const Header = styled.header`
   gap: 12px;
   padding: 16px 10px;
   margin-bottom: 16px;
-  border-bottom: 1px solid black;
-
-  @media (min-width: 768px) {
-    /* width: 100%; */
-    width: 768px;
-  }
-
-  @media (min-width: 480px) {
-    /* min-width: 400px; */
-    width: 100%;
-  }
-
-  @media (min-width: 1200px) {
-    width: 1200px;
-  }
+  border-bottom: 1px solid;
+  border-color: #1976d2;
 `;
 
 export const HeaderTitle = styled.h2`

@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import { logOut } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
 import { Wrapper, P } from './UserMenu.styled';
-import LogoutIcon from '@mui/icons-material/Logout';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import IconButton from '@mui/material/IconButton';
 
 export const UserMenu = () => {
@@ -14,7 +14,7 @@ export const UserMenu = () => {
     <Wrapper>
       <P>Welcome, {user.name}</P>
       <IconButton type="button" onClick={handlelogOut}>
-        <LogoutIcon />
+        <MeetingRoomIcon />
       </IconButton>
     </Wrapper>
   );
