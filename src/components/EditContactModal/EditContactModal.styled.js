@@ -10,20 +10,14 @@ export const Overlay = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 99;
 `;
 
 export const Modal = styled.div`
   position: relative;
+  width: auto;
   padding: 24px;
-  background-color: #fff;
-`;
-
-export const Title = styled.h2`
-  margin-bottom: ${p => p.theme.space[4]}px;
-  font-family: ${p => p.theme.fonts.heading};
-  font-size: ${p => p.theme.fontSizes.l};
-  font-weight: ${p => p.theme.fontWeights.normal};
-  text-align: center;
+  background-color: white;
 `;
 
 export const ModalCloseBtn = styled.button`
@@ -55,8 +49,3 @@ export const ModalCloseBtn = styled.button`
         border: 1px solid transparent;
         fill: var(--main-bg-cl);
         box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25)`;
-
-//     //  export const modalClosIcon.styled {
-//     // width: 12px;
-//     // height: 12px;
-// }

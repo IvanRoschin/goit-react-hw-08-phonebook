@@ -1,44 +1,87 @@
-import { Formik, ErrorMessage } from 'formik';
+import { useState } from 'react';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import { Button } from '@mui/material';
 
-import { Label, Form, Field, Btn } from './ContactForm.styled';
+export const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
+  const [contactName, setContactName] = useState(name);
+  const [contactNumber, setContactNumber] = useState(number);
 
-export const ContactForm = ({
-  initialValues = { name: '', number: '' },
-  onSubmit,
-  btnText,
-}) => {
-  const handleSubmit = async (values, actions) => {
-    await onSubmit(values);
-    actions.setSubmitting(false);
-    actions.resetForm();
+  const handleSubmit = e => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.elements.name.value.trim();
+    const number = form.elements.number.value.trim();
+    const contact = { name, number };
+
+    onSubmit(contact);
+    setContactName('');
+    setContactNumber('');
+    form.reset();
+  };
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+
+    switch (name) {
+      case 'name':
+        setContactName(value);
+        break;
+
+      case 'number':
+        setContactNumber(value);
+        break;
+
+      default:
+        return;
+    }
   };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
-      {({ isSubmitting }) => (
-        <Form id="form">
-          <Label>Name</Label>
-          <ErrorMessage name="name" />
-          <Field
-            type="text"
-            name="name"
-            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-            required
-          />
-          <Label>Number</Label>
-          <ErrorMessage name="number" />
-          <Field
-            type="tel"
-            name="number"
-            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-            required
-          />
-          <Btn type="submit" disabled={isSubmitting}>
-            {btnText}
-          </Btn>
-        </Form>
-      )}
-    </Formik>
+    <Box
+      component="form"
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        maxWidth: '360px',
+        width: '100%',
+        p: '10px',
+      }}
+      autoComplete="off"
+      required={true}
+      error="true"
+      validate="true"
+      onSubmit={handleSubmit}
+    >
+      <TextField
+        label="Name"
+        name="name"
+        type="name"
+        size="small"
+        onChange={handleChange}
+        value={contactName}
+        sx={{ width: '100%' }}
+        required
+      />
+      <TextField
+        label="Number"
+        name="number"
+        type="phone"
+        size="small"
+        sx={{ width: '100%' }}
+        onChange={handleChange}
+        value={contactNumber}
+        required
+      />
+
+      <Button
+        sx={{ width: '120px', mx: 'auto' }}
+        type="submit"
+        variant="outlined"
+        size="small"
+      >
+        {btnText}
+      </Button>
+    </Box>
   );
 };

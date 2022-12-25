@@ -1,10 +1,5 @@
 import { ContactForm } from 'components/ContactForm/ContactForm';
-import {
-  Overlay,
-  Modal,
-  Title,
-  ModalCloseBtn,
-} from './EditContactModal.styled';
+import { Overlay, Modal, ModalCloseBtn } from './EditContactModal.styled';
 import { toast } from 'react-toastify';
 import { RxCross1 } from 'react-icons/rx';
 
@@ -15,6 +10,7 @@ import {
 
 export const EditContactModal = ({ closeModal, id }) => {
   const { data: contacts } = useFetchContactsQuery();
+
   const [updateContact] = useUpdateContactMutation();
   const handleCloseModal = () => closeModal(false);
   const findContactById = contacts.filter(contact => contact.id === id);
@@ -33,13 +29,10 @@ export const EditContactModal = ({ closeModal, id }) => {
   return (
     <Overlay>
       <Modal>
-        <Title>Contact Update</Title>
         {contacts && (
           <ContactForm
-            initialValues={{
-              name: findContactById[0].name,
-              number: findContactById[0].number,
-            }}
+            name={findContactById[0].name}
+            number={findContactById[0].number}
             btnText="Save"
             onSubmit={handleUpdateContact}
           />

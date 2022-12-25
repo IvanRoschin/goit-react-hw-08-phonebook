@@ -1,7 +1,8 @@
-import { DebounceInput } from 'react-debounce-input';
 import { useDispatch } from 'react-redux';
 import { setFilter } from 'redux/contacts/filterSlice';
-import { FilterContainer, Filterlabel } from './Filter.styled';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
 export const Filter = () => {
   const dispatch = useDispatch();
@@ -9,13 +10,24 @@ export const Filter = () => {
     dispatch(setFilter(e.target.value));
   };
   return (
-    <FilterContainer>
-      <Filterlabel>Find contacts by name</Filterlabel>
-      <DebounceInput
-        minLength={2}
-        debounceTimeout={300}
+    <Box
+      component="form"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch' },
+      }}
+      noValidate
+      autoComplete="off"
+    >
+      <Typography variant="h6" component="h2" color="#1976d2">
+        Find contacts by name
+      </Typography>
+      <TextField
+        id="standard-search"
+        label="Search field"
+        type="search"
+        variant="standard"
         onChange={handleSearch}
       />
-    </FilterContainer>
+    </Box>
   );
 };
