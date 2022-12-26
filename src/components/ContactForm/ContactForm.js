@@ -64,6 +64,7 @@ export const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
         required
       />
       <TextField
+        inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
         label="Number"
         name="number"
         type="phone"
