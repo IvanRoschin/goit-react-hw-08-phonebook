@@ -1,7 +1,7 @@
 import { useFetchContactsQuery } from 'redux/contacts/slice';
 import { getFilter } from 'redux/contacts/filterSlice';
 import { useSelector } from 'react-redux';
-import { ContactItem } from '../ContactItem/ContactItem';
+import { ContactItem } from '../ContactItem';
 
 import Typography from '@mui/material/Typography';
 import Table from '@mui/material/Table';
@@ -14,7 +14,7 @@ import Paper from '@mui/material/Paper';
 
 import { Loader } from 'components/Loader';
 
-export const ContactList = () => {
+const ContactList = () => {
   const { data: contacts, isFetching } = useFetchContactsQuery();
   const filter = useSelector(getFilter);
   const filtredContacts = !contacts
@@ -26,8 +26,10 @@ export const ContactList = () => {
   return (
     <>
       {isFetching && <Loader />}
-      {!contacts ? (
-        <p>Your contactlist is empty</p>
+      {contacts?.length === 0 ? (
+        <Typography variant="h6" component="h2" align="center" color="#1976d2">
+          Your contactlist is empty
+        </Typography>
       ) : (
         <TableContainer component={Paper}>
           <Typography
@@ -58,3 +60,5 @@ export const ContactList = () => {
     </>
   );
 };
+
+export default ContactList;

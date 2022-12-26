@@ -1,19 +1,19 @@
 import { useEffect, lazy } from 'react';
 import { useDispatch } from 'react-redux';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout';
 import { PrivateRoute } from './PrivateRoute';
 import { RestrictedRoute } from './RestrictedRoute';
 import { refreshUser } from 'redux/auth/operations';
 import { useAuth } from 'hooks';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { Container } from './App.styled';
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage = lazy(() => import('../pages/Home'));
 const RegisterPage = lazy(() => import('../pages/Register'));
 const LoginPage = lazy(() => import('../pages/Login'));
-// const NotFound = lazy(() => import('../pages/404/404'));
+const NotFound = lazy(() => import('../pages/404'));
 const ContactPage = lazy(() => import('../pages/Contacts'));
 
 export const App = () => {
@@ -55,7 +55,9 @@ export const App = () => {
               />
             }
           />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          <Route path="*" element={<NotFound />} />
+
+          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Route>
       </Routes>
       <ToastContainer />

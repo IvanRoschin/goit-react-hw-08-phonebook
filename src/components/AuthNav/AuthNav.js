@@ -1,6 +1,6 @@
 import { NavList, Link } from './AuthNav.styled';
 
-export const AuthNav = () => {
+const AuthNav = () => {
   return (
     <NavList>
       <li>
@@ -12,3 +12,5 @@ export const AuthNav = () => {
     </NavList>
   );
 };
+
+export default AuthNav;

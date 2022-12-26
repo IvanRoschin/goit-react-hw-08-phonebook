@@ -2,8 +2,9 @@ import { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
+import PropTypes from 'prop-types';
 
-export const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
+const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
   const [contactName, setContactName] = useState(name);
   const [contactNumber, setContactNumber] = useState(number);
 
@@ -86,3 +87,12 @@ export const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
     </Box>
   );
 };
+
+ContactForm.propTypes = {
+  name: PropTypes.string,
+  number: PropTypes.string,
+  btnText: PropTypes.string.isRequired,
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default ContactForm;

@@ -1,11 +1,11 @@
 import { Header } from './AppBar.styled';
 import { UserMenu } from '../UserMenu/UserMenu';
-import { AuthNav } from '../AuthNav/AuthNav';
+import { AuthNav } from '../AuthNav';
 import { useAuth } from 'hooks/useAuth';
 import Box from '@mui/material/Box';
-import { Navigation } from 'components/Navigation/Navigation';
+import { Navigation } from 'components/Navigation';
 
-export const AppBar = () => {
+const AppBar = () => {
   const { isLoggedIn } = useAuth();
   return (
     <Header>
@@ -23,3 +23,5 @@ export const AppBar = () => {
     </Header>
   );
 };
+
+export default AppBar;

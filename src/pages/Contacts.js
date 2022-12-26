@@ -1,6 +1,6 @@
-import { ContactList } from 'components/ContactList/ContactList';
-import { Filter } from 'components/ContactFilter/Filter';
-import { ContactEditor } from 'components/ContactEditor/ContactEditor';
+import { ContactList } from 'components/ContactList';
+import { Filter } from 'components/ContactFilter';
+import { ContactEditor } from 'components/ContactEditor';
 import Box from '@mui/material/Box';
 
 export default function Contacts() {

@@ -2,12 +2,12 @@ import {
   useAddContactMutation,
   useFetchContactsQuery,
 } from 'redux/contacts/slice';
-import { ContactForm } from 'components/ContactForm/ContactForm';
+import { ContactForm } from 'components/ContactForm';
 import { toast } from 'react-toastify';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
-export const ContactEditor = () => {
+const ContactEditor = () => {
   const [addContact] = useAddContactMutation();
   const { data: contacts } = useFetchContactsQuery();
 
@@ -26,7 +26,12 @@ export const ContactEditor = () => {
   };
 
   return (
-    <Box>
+    <Box
+      width="50%"
+      sx={{
+        '& > :not(style)': { m: 1, width: '25ch', mx: 'auto' },
+      }}
+    >
       <Typography variant="h6" component="h2" align="center" color="#1976d2">
         Add Contact
       </Typography>
@@ -37,3 +42,5 @@ export const ContactEditor = () => {
     </Box>
   );
 };
+
+export default ContactEditor;
