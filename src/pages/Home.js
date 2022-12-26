@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import desktop from '../components/images/desktop.jpg';
 import logo from '../components/images/logo.jpg';
+import { Link } from 'react-router-dom';
 
 // const styles = {
 //   container: {
@@ -19,7 +20,12 @@ import logo from '../components/images/logo.jpg';
 
 export default function Home() {
   return (
-    <Box sx={{ minHeight: 'calc(100vh - 50px)' }}>
+    <Box
+      sx={{
+        minHeight: 'calc(100vh - 50px)',
+        position: 'relative',
+      }}
+    >
       <Typography variant="h1" component="h1" color="#1976d2">
         Welcome to <br />
       </Typography>
@@ -29,23 +35,16 @@ export default function Home() {
           gap: 10,
         }}
       >
-        <div>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <img src={logo} alt="logo"></img>
-          <Typography variant="h6" component="h2">
-            <br />
-            <br />
-            PhoneBook is an online directory
-            <br />
-            that helps users easily find contact details
-          </Typography>
-        </div>
+        <Box sx={{ marginTop: 20 }}>
+          <Link to="/register">
+            <img src={logo} alt="logo"></img>
+            <Typography variant="h6" component="h2">
+              PhoneBook is an online directory
+              <br />
+              that helps users easily find contact details
+            </Typography>
+          </Link>
+        </Box>
         <img src={desktop} alt="desktop"></img>
       </Box>
     </Box>
