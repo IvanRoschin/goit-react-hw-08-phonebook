@@ -8,16 +8,22 @@ import { Link } from 'react-router-dom';
 export default function Home() {
   return (
     <Box>
-      <Typography variant="h1" component="h1" color="#1976d2">
+      <Typography
+        sx={{ typography: { xs: 'h3', lg: 'h1' } }}
+        component="h1"
+        color="#1976d2"
+      >
         Welcome to <br />
       </Typography>
+
       <Box
         sx={{
           display: 'flex',
           gap: 10,
+          flexDirection: { xs: 'column', lg: 'row' },
         }}
       >
-        <Box sx={{ marginTop: 20 }}>
+        <Box>
           <Link to="/register">
             <img src={logo} alt="logo"></img>
           </Link>

@@ -10,6 +10,8 @@ export default function Contacts() {
         sx={{
           display: 'flex',
           gap: 20,
+          flexDirection: { xs: 'column', sm: 'row' },
+          alignItems: 'center',
         }}
       >
         <ContactEditor />

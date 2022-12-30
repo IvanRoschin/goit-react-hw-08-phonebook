@@ -3,6 +3,7 @@ import { UserMenu } from '../UserMenu/UserMenu';
 import { AuthNav } from '../AuthNav';
 import { useAuth } from 'hooks/useAuth';
 import Box from '@mui/material/Box';
+
 import { Navigation } from 'components/Navigation';
 
 const AppBar = () => {
