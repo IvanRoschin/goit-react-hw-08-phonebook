@@ -16,6 +16,7 @@ import { Loader } from 'components/Loader';
 
 const ContactList = () => {
   const { data: contacts, isFetching } = useFetchContactsQuery();
+  console.log(contacts);
   const filter = useSelector(getFilter);
   const filtredContacts = !contacts
     ? []
@@ -43,15 +44,17 @@ const ContactList = () => {
           <Table sx={{ minWidth: 250 }} size="small" aria-label="a dense table">
             <TableHead>
               <TableRow>
+                <TableCell>Favorite</TableCell>
                 <TableCell>Name</TableCell>
                 <TableCell>Phone</TableCell>
-                <TableCell>Change</TableCell>
+                <TableCell>Email</TableCell>
+                <TableCell>Edit</TableCell>
                 <TableCell>Delete</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {filtredContacts.map(contact => (
-                <ContactItem key={contact.id} {...contact} />
+                <ContactItem key={contact._id} {...contact} />
               ))}
             </TableBody>
           </Table>

@@ -15,7 +15,7 @@ const EditContactModal = ({ closeModal, id }) => {
 
   const [updateContact] = useUpdateContactMutation();
   const handleCloseModal = () => closeModal(false);
-  const findContactById = contacts.filter(contact => contact.id === id);
+  const findContactById = contacts.filter(contact => contact._id === id);
 
   const handleUpdateContact = async fields => {
     try {
@@ -52,7 +52,8 @@ const EditContactModal = ({ closeModal, id }) => {
         {contacts && (
           <ContactForm
             name={findContactById[0].name}
-            number={findContactById[0].number}
+            phone={findContactById[0].phone}
+            email={findContactById[0].email}
             btnText="Save"
             onSubmit={handleUpdateContact}
           />

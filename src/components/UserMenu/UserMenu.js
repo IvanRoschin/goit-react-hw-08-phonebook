@@ -12,7 +12,9 @@ export const UserMenu = () => {
 
   return (
     <Wrapper>
-      <P>Welcome, {user.name}</P>
+      <img src={user.avatarURL} alt="1" />
+      <P> Welcome {user.email || user.user.email}</P>
+
       <IconButton type="button" onClick={handlelogOut}>
         <MeetingRoomIcon />
       </IconButton>

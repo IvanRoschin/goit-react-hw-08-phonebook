@@ -4,20 +4,31 @@ import TextField from '@mui/material/TextField';
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 
-const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
+const ContactForm = ({
+  name = '',
+  email = '',
+  phone = '',
+  onSubmit,
+  btnText,
+}) => {
   const [contactName, setContactName] = useState(name);
-  const [contactNumber, setContactNumber] = useState(number);
+  const [contactPhone, setContactPhone] = useState(phone);
+  const [contactEmail, setContactEmail] = useState(email);
 
   const handleSubmit = e => {
     e.preventDefault();
     const form = e.target;
     const name = form.elements.name.value.trim();
-    const number = form.elements.number.value.trim();
-    const contact = { name, number };
+    const phone = form.elements.phone.value.trim();
+    const email = form.elements.email.value.trim();
+
+    const contact = { name, phone, email };
 
     onSubmit(contact);
     setContactName('');
-    setContactNumber('');
+    setContactPhone('');
+    setContactEmail('');
+
     form.reset();
   };
 
@@ -29,8 +40,12 @@ const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
         setContactName(value);
         break;
 
-      case 'number':
-        setContactNumber(value);
+      case 'phone':
+        setContactPhone(value);
+        break;
+
+      case 'email':
+        setContactEmail(value);
         break;
 
       default:
@@ -66,13 +81,24 @@ const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
       />
       <TextField
         inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-        label="Number"
-        name="number"
+        label="Phone"
+        name="phone"
         type="phone"
         size="small"
         sx={{ width: '100%' }}
         onChange={handleChange}
-        value={contactNumber}
+        value={contactPhone}
+        required
+      />
+
+      <TextField
+        label="Email"
+        name="email"
+        type="email"
+        size="small"
+        sx={{ width: '100%' }}
+        onChange={handleChange}
+        value={contactEmail}
         required
       />
 
@@ -90,7 +116,7 @@ const ContactForm = ({ name = '', number = '', onSubmit, btnText }) => {
 
 ContactForm.propTypes = {
   name: PropTypes.string,
-  number: PropTypes.string,
+  phone: PropTypes.string,
   btnText: PropTypes.string.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };

@@ -12,6 +12,7 @@ const ContactEditor = () => {
   const { data: contacts } = useFetchContactsQuery();
 
   const handleAddContact = async values => {
+    console.log(contacts);
     const isExist = contacts.find(contact => contact.name === values.name);
     if (isExist) {
       toast.error(`${values.name} is already in contacts.`);

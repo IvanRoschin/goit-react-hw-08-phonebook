@@ -11,6 +11,12 @@ export const ListItem = styled.li`
     margin-bottom: 5px;
   }
 `;
+
+export const FavoriteBtn = styled.button`
+  border: none;
+  background-color: transparent;
+`;
+
 export const Btn = styled.button`
   padding: ${p => p.theme.space[3]}px;
   text-align: center;
