@@ -2,9 +2,8 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = 'http://localhost:8080/api';
-// axios.defaults.baseURL = 'https://phonebokapp.herokuapp.com/api';
-// axios.defaults.baseURL = 'https://connections-api.herokuapp.com';
+// axios.defaults.baseURL = 'http://localhost:8080/api';
+axios.defaults.baseURL = 'https://phonebokapp.herokuapp.com/api';
 
 // Utility to add JWT
 const setAuthHeader = token => {
