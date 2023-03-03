@@ -10,6 +10,7 @@ import Box from '@mui/material/Box';
 const ContactEditor = () => {
   const [addContact] = useAddContactMutation();
   const { data: contacts } = useFetchContactsQuery();
+  console.log(contacts);
 
   const handleAddContact = async values => {
     console.log(contacts);

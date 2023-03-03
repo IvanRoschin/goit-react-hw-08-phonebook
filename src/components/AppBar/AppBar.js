@@ -8,6 +8,7 @@ import { Navigation } from 'components/Navigation';
 
 const AppBar = () => {
   const { isLoggedIn } = useAuth();
+
   return (
     <Header>
       <Navigation />

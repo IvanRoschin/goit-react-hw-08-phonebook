@@ -11,6 +11,7 @@ import { Container } from './App.styled';
 import 'react-toastify/dist/ReactToastify.css';
 
 const HomePage = lazy(() => import('../pages/Home'));
+const VerifyPage = lazy(() => import('../pages/Verify'));
 const RegisterPage = lazy(() => import('../pages/Register'));
 const LoginPage = lazy(() => import('../pages/Login'));
 const NotFound = lazy(() => import('../pages/404'));
@@ -38,10 +39,17 @@ export const App = () => {
             }
           />
           <Route
+            path="/verify"
+            element={
+              <RestrictedRoute redirectTo="/login" component={<VerifyPage />} />
+            }
+          />
+          <Route
             path="/register"
             element={
               <RestrictedRoute
-                redirectTo="/contacts"
+                Navigate
+                to="/verify"
                 component={<RegisterPage />}
               />
             }
@@ -56,8 +64,6 @@ export const App = () => {
             }
           />
           <Route path="*" element={<NotFound />} />
-
-          {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
         </Route>
       </Routes>
       <ToastContainer />

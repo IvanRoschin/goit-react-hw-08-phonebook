@@ -2,8 +2,8 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-// axios.defaults.baseURL = 'http://localhost:8080/api';
-axios.defaults.baseURL = 'https://phonebokapp.herokuapp.com/api';
+axios.defaults.baseURL = 'http://localhost:8080/api';
+// axios.defaults.baseURL = 'https://phonebokapp.herokuapp.com/api';
 
 // Utility to add JWT
 const setAuthHeader = token => {
@@ -23,11 +23,11 @@ export const register = createAsyncThunk(
   'auth/register',
   async (credentials, thunkAPI) => {
     try {
-      const res = await axios.post('/users/signup', credentials);
+      const { data } = await axios.post('/users/signup', credentials);
       // After successful registration, add the token to the HTTP header
-      setAuthHeader(res.data.data.token);
+      setAuthHeader(data.data.token);
       toast.success('Registrartion is success');
-      return res.data.data;
+      return data.data;
     } catch (error) {
       toast.error('Registration failed');
       return thunkAPI.rejectWithValue(error.message);
@@ -44,13 +44,11 @@ export const logIn = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const { data } = await axios.post('/users/login', credentials);
-      console.log('47', data);
       // After successful login, add the token to the HTTP header
-      setAuthHeader(data.data.token);
-      toast.success(`Your logged as ${data.data.user.email}`);
-      return data.data;
+      setAuthHeader(data.token);
+      toast.success(`Your logged as ${data.user.email}`);
+      return data;
     } catch (error) {
-      console.log(error);
       toast.error('Login failed');
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -92,6 +90,25 @@ export const refreshUser = createAsyncThunk(
       setAuthHeader(persistedToken);
       const res = await axios.get('/users/current');
       return res.data.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+/*
+ * GET @ /users/verify
+ * return json message
+ */
+
+export const verify = createAsyncThunk(
+  'auth/verify',
+  async (credentials, thunkAPI) => {
+    try {
+      const { data } = await axios.get('/users/verify', credentials);
+      console.log('operations verify', data.data);
+      // After successful registration, add the token to the HTTP header
+      return data.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
